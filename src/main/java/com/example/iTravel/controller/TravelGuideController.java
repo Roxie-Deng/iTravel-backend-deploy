@@ -15,7 +15,6 @@ import org.bson.types.ObjectId;
 
 @RestController
 @RequestMapping("/api/guides")
-@CrossOrigin(origins = "http://i-travel-app.s3-website-us-east-1.amazonaws.com")
 public class TravelGuideController {
 
     @Autowired

@@ -40,6 +40,9 @@ public class WebSecurityConfig {
     @Value("${iTravel.app.jwtSecret}")
     private String jwtSecret;
 
+    @Value("${frontend.allowed-origins}")
+    private String allowedOrigins;
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -66,10 +69,9 @@ public class WebSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000",
-                "http://i-travel-app.s3-website-us-east-1.amazonaws.com"
-        ));
+        Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .forEach(configuration::addAllowedOrigin);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
